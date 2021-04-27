@@ -1,0 +1,77 @@
+import { useState, useEffect } from 'react';
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker,
+  Polyline,
+} from "react-google-maps";
+
+import './App.css';
+
+function App() {
+  const [data, setData] = useState("");
+  const MapWithAMarker = withScriptjs(withGoogleMap(props =>
+    <GoogleMap
+      defaultZoom={18}
+      defaultCenter={{ lat: 6.4937861, lng: 3.5840516 }}
+    >
+      <Polyline path={[{ lat: 6.4937861, lng: 3.5840516 }, { lat: 6.4679558, lng: 3.5615414 }]} options={{ 
+        strokeColor: '#00ffff',
+        strokeOpacity: 1,
+        strokeWeight: 2,
+        icons: [{ 
+          icon: "hello",
+          offset: '0',
+          repeat: '10px'
+        }], }}
+        geodesic={false}
+      />
+      <Marker
+        position={{ lat: 6.4501983, lng: 3.4535067 }}
+      />
+      {/* <Marker
+        position={{ lat: 6.4937861, lng: 3.5840516 }}
+      /> */}
+      
+      {/* <Marker
+        position={{ lat: 6.4679558, lng: 3.5615414 }}
+      /> */}
+    </GoogleMap>
+  ));
+
+  useEffect(() => {
+    console.log('Component mount');
+    console.log('Data Changed');
+  }, [data]);
+
+  // const fetchData = async () => {
+  //   // Make API call here
+    
+  //   const dt = await axios.post().then((data) => {})
+  //     .catch((err) => {
+
+  //     }).finally(() => {
+  //       // stop loader
+  //     });
+  // };
+
+  return (
+    <div className="App">
+      <input value={data} onChange={(e) => {
+        setData(e.target.value)
+      }} />
+      <p>{data}</p>
+      <div>
+        <MapWithAMarker
+          googleMapURL="https://maps.googleapis.com/maps/api/js?key=AIzaSyDy_0KGBQQWlCfn7JjOzXzk6eQfaF5IZS8&v=3.exp&libraries=geometry,drawing,places"
+          loadingElement={<div style={{ height: `100%` }} />}
+          containerElement={<div style={{ height: `800px` }} />}
+          mapElement={<div style={{ height: `100%` }} />}
+        />
+      </div>
+    </div>
+  );
+}
+
+export default App;
